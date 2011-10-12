@@ -570,7 +570,7 @@ def write_settings(bus):
 			bus['files']['scene'].write("\n// Texture preview material")
 			bus['files']['scene'].write("\nBRDFLight BRDFPreviewTexture {")
 			bus['files']['scene'].write("\n\tcolor= %s;" % tex_name)
-			bus['files']['scene'].write("\n\tcolorMultiplier= 4.0;")
+			bus['files']['scene'].write("\n\tcolorMultiplier= 1.0;")  ### with correct lwf no need to boost intensity , 1.0 gives flat texture color
 			bus['files']['scene'].write("\n}\n")
 			bus['files']['scene'].write("\nMtlSingleBRDF MAtexture {")
 			bus['files']['scene'].write("\n\tbrdf= BRDFPreviewTexture;")
@@ -583,6 +583,13 @@ def write_settings(bus):
 		bus['files']['scene'].write("\n\tclamp_output= 0;")
 		bus['files']['scene'].write("\n\tadaptation_only= 0;")
 		bus['files']['scene'].write("\n\tlinearWorkflow= 0;")
+
+		### preview output gamma correction :	
+		if mode == 'TEXTURE':  
+				bus['files']['scene'].write("\n\tgamma= 4.84;")  ###  ugly fix / hack .. but blender apparently does an extra correction pass on texture , 2x out gamma on textures seems to fix it. ugly but simple. 
+		if mode == 'MATERIAL':
+				bus['files']['scene'].write("\n\tgamma= 2.2;")  ### preview needs output gamma correction . 
+
 		bus['files']['scene'].write("\n}\n")
 		bus['files']['scene'].write("\nSettingsDMCSampler {")
 		bus['files']['scene'].write("\n\tadaptive_amount= 0.99;")
@@ -1462,7 +1469,7 @@ def write_scene(bus):
 
 	if bus['preview']:
 		bus['files']['lights'].write("\nLightDirectMax LALamp_008 { // PREVIEW")
-		bus['files']['lights'].write("\n\tintensity= 3.000000;")
+		bus['files']['lights'].write("\n\tintensity= 0.200000;")   ### intensity fix , due to using  lwf.
 		bus['files']['lights'].write("\n\tcolor= Color(1.000000, 1.000000, 1.000000);")
 		bus['files']['lights'].write("\n\tshadows= 0;")
 		bus['files']['lights'].write("\n\tcutoffThreshold= 0.01;")
@@ -1479,7 +1486,7 @@ def write_scene(bus):
 		bus['files']['lights'].write("\n}\n")
 
 		bus['files']['lights'].write("\nLightSpot LALamp_002 { // PREVIEW")
-		bus['files']['lights'].write("\n\tintensity= 30.000000;")
+		bus['files']['lights'].write("\n\tintensity= 25.000000;") ### intensity fix , due to using  lwf.
 		bus['files']['lights'].write("\n\tcolor= Color(1.000000, 1.000000, 1.000000);")
 		bus['files']['lights'].write("\n\tconeAngle= 1.3;")
 		bus['files']['lights'].write("\n\tpenumbraAngle= -0.4;")
@@ -1501,13 +1508,13 @@ def write_scene(bus):
 		bus['files']['lights'].write("\n}\n")
 
 		bus['files']['lights'].write("\nLightOmni LALamp { // PREVIEW")
-		bus['files']['lights'].write("\n\tintensity= 350.000000;")
+		bus['files']['lights'].write("\n\tintensity= 15.000000;") ### intensity fix , due to using  lwf.
 		bus['files']['lights'].write("\n\tcolor= Color(1.000000, 1.000000, 1.000000);")
 		bus['files']['lights'].write("\n\tshadows= 0;")
 		bus['files']['lights'].write("\n\tcutoffThreshold= 0.01;")
 		bus['files']['lights'].write("\n\taffectDiffuse= 1;")
-		bus['files']['lights'].write("\n\taffectSpecular= 0;")
-		bus['files']['lights'].write("\n\tspecular_contribution= 0.000000;")
+		bus['files']['lights'].write("\n\taffectSpecular= 1;") ### better have some speculars in lamps to test spec in materials 
+		bus['files']['lights'].write("\n\tspecular_contribution= 1.000000;") ### better have some speculars in lamps to test spec in materials 
 		bus['files']['lights'].write("\n\tareaSpeculars= 0;")
 		bus['files']['lights'].write("\n\tshadowSubdivs= 4;")
 		bus['files']['lights'].write("\n\tdecay= 2.0;")
@@ -1521,12 +1528,12 @@ def write_scene(bus):
 		bus['files']['lights'].write("\n}\n")
 
 		bus['files']['lights'].write("\nLightOmni LALamp_001 { // PREVIEW")
-		bus['files']['lights'].write("\n\tintensity= 300.000000;")
+		bus['files']['lights'].write("\n\tintensity= 10.000000;") ### intensity fix , due to using  lwf.
 		bus['files']['lights'].write("\n\tcolor= Color(1.000000, 1.000000, 1.000000);")
 		bus['files']['lights'].write("\n\tshadows= 0;")
 		bus['files']['lights'].write("\n\tcutoffThreshold= 0.01;")
 		bus['files']['lights'].write("\n\taffectDiffuse= 1;")
-		bus['files']['lights'].write("\n\taffectSpecular= 0;")
+		bus['files']['lights'].write("\n\taffectSpecular= 1;")
 		bus['files']['lights'].write("\n\tareaSpeculars= 0;")
 		bus['files']['lights'].write("\n\tshadowSubdivs= 4;")
 		bus['files']['lights'].write("\n\tdecay= 2.0;")
@@ -1792,6 +1799,10 @@ def run(engine, bus):
 
 	if VRayExporter.autoclose:
 		params.append('-autoclose=')
+		params.append('1')
+
+	if VRayExporter.srgb:
+		params.append('-displaySRGB=')
 		params.append('1')
 
 	if not VRayExporter.autorun:

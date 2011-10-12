@@ -348,6 +348,7 @@ class VRAY_RP_exporter(VRayRenderPanel, bpy.types.Panel):
 		col.prop(ve, 'auto_meshes')
 		col.prop(ve, 'display')
 		col.prop(ve, 'autoclose')
+		col.prop(ve, 'srgb')
 		col.prop(ve, 'debug')
 		if wide_ui:
 			col= split.column()

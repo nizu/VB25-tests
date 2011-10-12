@@ -92,6 +92,11 @@ def add_properties(rna_pointer):
 		description= "Close VFB on Esc.",
 		default= False
 	)
+	VRayExporter.srgb= BoolProperty(
+		name= "sRGB button",
+		description= "turn on sRGB button in VFB at each render",
+		default= True
+	)
 
 	VRayExporter.log_window= BoolProperty(
 		name= "Show log window",
