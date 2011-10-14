@@ -392,9 +392,9 @@ def add_properties(rna_pointer):
 	BRDFBlinn.imap_min_rate= IntProperty(
 		name= "Min rate",
 		description= "TODO: Tooltip.",
-		min= 0,
+		min= -10,
 		max= 100,
-		soft_min= 0,
+		soft_min= -4,
 		soft_max= 10,
 		default= -1
 	)
@@ -403,9 +403,9 @@ def add_properties(rna_pointer):
 	BRDFBlinn.imap_max_rate= IntProperty(
 		name= "Max rate",
 		description= "TODO: Tooltip.",
-		min= 0,
+		min= -10,
 		max= 100,
-		soft_min= 0,
+		soft_min= -2,
 		soft_max= 10,
 		default= 1
 	)
