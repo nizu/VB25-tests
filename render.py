@@ -593,8 +593,8 @@ def write_settings(bus):
 		bus['files']['scene'].write("\n}\n")
 		bus['files']['scene'].write("\nSettingsDMCSampler {")
 		bus['files']['scene'].write("\n\tadaptive_amount= 0.99;")
-		bus['files']['scene'].write("\n\tadaptive_threshold= 0.2;")
-		bus['files']['scene'].write("\n\tsubdivs_mult= 0.01;")
+		bus['files']['scene'].write("\n\tadaptive_threshold= 1.0;")
+		bus['files']['scene'].write("\n\tsubdivs_mult= 0.2;")
 		bus['files']['scene'].write("\n}\n")
 		bus['files']['scene'].write("\nSettingsOptions {")
 		bus['files']['scene'].write("\n\tmtl_limitDepth= 1;")
@@ -605,8 +605,10 @@ def write_settings(bus):
 		bus['files']['scene'].write("\n\tmisc_lowThreadPriority= 1;")
 		bus['files']['scene'].write("\n}\n")
 		bus['files']['scene'].write("\nSettingsImageSampler {")
-		bus['files']['scene'].write("\n\ttype= 0;") # Fastest result, but no AA :(
-		bus['files']['scene'].write("\n\tfixed_subdivs= 1;")
+		bus['files']['scene'].write("\n\ttype= 2;") # switching adaptive subdiv instead of fixed to get decent Dirt textures preview
+		bus['files']['scene'].write("\n\tsubdivision_minRate= -2;") 
+		bus['files']['scene'].write("\n\tsubdivision_minRate=  0;") 
+		#bus['files']['scene'].write("\n\tfixed_subdivs= 1;")
 		bus['files']['scene'].write("\n}\n")
 
 	if VRayExporter.draft:
