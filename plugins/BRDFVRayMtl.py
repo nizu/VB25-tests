@@ -622,11 +622,10 @@ def mapto(bus, BRDFLayered= None):
 
 	if BRDFLayered:
 		defaults['diffuse']= (a(scene,"AColor(%.6f,%.6f,%.6f,1.0)"%tuple(BRDFVRayMtl.diffuse)),     0, 'NONE')
-		defaults['opacity']= (a(scene,"AColor(%.6f,%.6f,%.6f,1.0)"%tuple([BRDFVRayMtl.opacity]*3)), 0, 'NONE')
 	else:
 		defaults['diffuse']= (a(scene,"AColor(%.6f,%.6f,%.6f,1.0)"%tuple(ma.diffuse_color)),        0, 'NONE')
-		defaults['opacity']= (a(scene,"AColor(%.6f,%.6f,%.6f,1.0)"%tuple([ma.alpha]*3)),            0, 'NONE')
 
+	defaults['opacity']= (a(scene,"AColor(%.6f,%.6f,%.6f,%.6f)"%tuple([BRDFVRayMtl.opacity]*4)),   0, 'NONE')
 	defaults['roughness']= (a(scene,"AColor(%.6f,%.6f,%.6f,1.0)"%tuple([BRDFVRayMtl.roughness]*3)), 0, 'NONE')
 		
 	defaults['reflect_glossiness']=  (a(scene,"AColor(%.6f,%.6f,%.6f,1.0)"%tuple([BRDFVRayMtl.reflect_glossiness]*3)),  0, 'NONE')
@@ -700,7 +699,7 @@ def write(bus, VRayBRDF= None, base_name= None):
 		ofile.write("\n\t%s= %s;" % (key, "%s::out_intensity" % textures[key] if key in textures else a(scene,getattr(BRDFVRayMtl,key))))
 
 	if 'opacity' in textures:
-		ofile.write("\n\topacity= %s::out_intensity;" % textures['opacity'])
+		ofile.write("\n\topacity= %s::out_alpha;" % textures['opacity'])
 	else:
 		ofile.write("\n\topacity= %s;" % a(scene, BRDFVRayMtl.opacity))
 
