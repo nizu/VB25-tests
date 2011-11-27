@@ -391,33 +391,23 @@ def add_properties(rna_pointer):
 	# imap_min_rate
 	BRDFBlinn.imap_min_rate= IntProperty(
 		name= "Min rate",
-<<<<<<< HEAD
-		description= "TODO: Tooltip.",
-		min= -10,
-=======
 		description= "",
-		min= 0,
->>>>>>> upstream/master
+		min= -10,
 		max= 100,
 		soft_min= -4,
 		soft_max= 10,
-		default= -1
+		default= -2
 	)
 
 	# imap_max_rate
 	BRDFBlinn.imap_max_rate= IntProperty(
 		name= "Max rate",
-<<<<<<< HEAD
-		description= "TODO: Tooltip.",
-		min= -10,
-=======
 		description= "",
-		min= 0,
->>>>>>> upstream/master
+		min= -10,
 		max= 100,
 		soft_min= -2,
 		soft_max= 10,
-		default= 1
+		default= -1
 	)
 
 	# imap_color_thresh
