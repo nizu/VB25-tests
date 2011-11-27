@@ -32,7 +32,7 @@ TYPE= 'RENDERCHANNEL'
 ID=   'MAINPASSES'
 NAME= 'Main Passes'
 PLUG= 'RenderChannelMainPasses'
-DESC= "TODO."
+DESC= "TODO"
 PID=  2
 
 PARAMS= None
@@ -88,12 +88,12 @@ def add_properties(parent_struct):
 	parent_struct.RenderChannelMainPasses= PointerProperty(
 		type= RenderChannelMainPasses,
 		name= NAME,
-		description= "V-Ray main render channels."
+		description= "V-Ray main render channels"
 	)
 
 	RenderChannelMainPasses.name= StringProperty(
 		name= "Name",
-		description= "Channel name.",
+		description= "Channel name",
 		default= NAME
 	)
 
@@ -105,25 +105,25 @@ def add_properties(parent_struct):
 		setattr(RenderChannelMainPasses, 'channel_%s' % chan_name, bpy.props.BoolProperty(
 			attr= 'channel_%s' % chan_name,
 			name= "%s" % key,
-			description= "%s channel." % key,
+			description= "%s channel" % key,
 			default= False)
 		)
 
 		setattr(RenderChannelMainPasses, '%s_cm' % chan_name, bpy.props.BoolProperty(
 			name= "Color mapping",
-			description= "Apply color mapping to \"%s\" channel." % key,
+			description= "Apply color mapping to \"%s\" channel" % key,
 			default= False)
 		)
 
 		setattr(RenderChannelMainPasses, '%s_aa' % chan_name, bpy.props.BoolProperty(
 			name= "Consider for AA",
-			description= "Apply AA to \"%s\" channel." % key,
+			description= "Apply AA to \"%s\" channel" % key,
 			default= False)
 		)
 
 		setattr(RenderChannelMainPasses, '%s_filt' % chan_name, bpy.props.BoolProperty(
 			name= "Filtering",
-			description= "Apply filtering to \"%s\" channel." % key,
+			description= "Apply filtering to \"%s\" channel" % key,
 			default= True)
 		)
 	

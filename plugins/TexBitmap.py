@@ -40,7 +40,7 @@ TYPE= 'TEXTURE'
 ID=   'TexBitmap'
 
 NAME= 'Bitmap'
-DESC= "Image texture."
+DESC= "Image texture"
 
 
 def add_properties(rna_pointer):
@@ -51,18 +51,18 @@ def add_properties(rna_pointer):
 	class BitmapBuffer(bpy.types.PropertyGroup):
 		filter_type= EnumProperty(
 			name= "Filter type",
-			description= "Filter type.",
+			description= "Filter type",
 			items= (
-				('NONE',   "None",        ""),
-				('MIPMAP', "Mip-Map",     "Mip-map filtering."),
-				('AREA',   "Area",        "Summed area filtering.")
+				('NONE',   "None",        "None"),
+				('MIPMAP', "Mip-Map",     "Mip-map filtering"),
+				('AREA',   "Area",        "Summed area filtering")
 			),
 			default= 'NONE'
 		)
 
 		color_space= EnumProperty(
 			name= "Color space",
-			description= "Color space.",
+			description= "Color space",
 			items= (
 				('LINEAR', "Linear",          ""), # 0
 				('GAMMA',  "Gamma corrected", ""),
@@ -73,7 +73,7 @@ def add_properties(rna_pointer):
 
 		interpolation= EnumProperty(
 			name= "Interpolation",
-			description= "Interpolation.",
+			description= "Interpolation",
 			items= (
 				('BILINEAR', "Bilinear", ""), # 0
 				('BICUBIC',  "Bicubic",  ""),
@@ -83,7 +83,7 @@ def add_properties(rna_pointer):
 
 		filter_blur= FloatProperty(
 			name= "Blur",
-			description= "Filter blur.",
+			description= "Filter blur",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -93,7 +93,7 @@ def add_properties(rna_pointer):
 
 		gamma= FloatProperty(
 			name= "Gamma",
-			description= "Gamma.",
+			description= "Gamma",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -104,25 +104,25 @@ def add_properties(rna_pointer):
 
 		use_input_gamma= BoolProperty(
 			name= "Use \"Input gamma\"",
-			description= "Use \"Input gamma\" from \"Color mapping\" settings.",
+			description= "Use \"Input gamma\" from \"Color mapping\" settings",
 			default= True
 		)
 
 		gamma_correct= BoolProperty(
 			name= "Invert gamma",
-			description= "Correct \"Color mapping\" gamma (set image gamma = 1 / cm_gamma).",
+			description= "Correct \"Color mapping\" gamma (set image gamma = 1 / cm_gamma)",
 			default= False
 		)
 
 		allow_negative_colors= BoolProperty(
 			name= "Allow negative colors",
-			description= "If false negative colors will be clamped.",
+			description= "If false negative colors will be clamped",
 			default= False
 		)
 
 		use_data_window= BoolProperty(
 			name= "Use data window",
-			description= "Use the data window information in OpenEXR files.",
+			description= "Use the data window information in OpenEXR files",
 			default= True
 		)
 	bpy.utils.register_class(BitmapBuffer)
@@ -130,13 +130,13 @@ def add_properties(rna_pointer):
 	bpy.types.Image.vray= PointerProperty(
 		name= "V-Ray Image Settings",
 		type=  VRayImage,
-		description= "V-Ray image settings."
+		description= "V-Ray image settings"
 	)
 
 	VRayImage.BitmapBuffer= PointerProperty(
 		name= "BitmapBuffer",
 		type=  BitmapBuffer,
-		description= "BitmapBuffer settings."
+		description= "BitmapBuffer settings"
 	)
 
 

@@ -32,7 +32,7 @@ TYPE= 'RENDERCHANNEL'
 ID=   'AO'
 NAME= 'Ambient Occlusion'
 PLUG= 'RenderChannelAO'
-DESC= "TODO."
+DESC= ""
 PID=  0
 
 PARAMS= (
@@ -66,36 +66,36 @@ def add_properties(parent_struct):
 	parent_struct.RenderChannelAO= PointerProperty(
 		type= RenderChannelAO,
 		name= NAME,
-		description= "V-Ray render channel \"%s\" settings." % NAME
+		description= "V-Ray render channel \"%s\" settings" % NAME
 	)
 
 	RenderChannelAO.name= StringProperty(
 		name= "Name",
-		description= "TODO.",
+		description= "",
 		default= NAME
 	)
 
 	RenderChannelAO.consider_for_aa= BoolProperty(
 		name= "Consider for AA",
-		description= "TODO.",
+		description= "",
 		default= True
 	)
 
 	RenderChannelAO.affect_matte_objects= BoolProperty(
 		name= "Affect matte objects",
-		description= "TODO.",
+		description= "",
 		default= True
 	)
 
 	RenderChannelAO.filtering= BoolProperty(
 		name= "Filtering",
-		description= "TODO.",
+		description= "",
 		default= True
 	)
 
 	RenderChannelAO.radius= FloatProperty(
 		name= "Radius",
-		description= "AO radius.",
+		description= "AO radius",
 		min= 0.0,
 		max= 100.0,
 		soft_min= 0.0,
@@ -106,7 +106,7 @@ def add_properties(parent_struct):
 
 	RenderChannelAO.falloff= FloatProperty(
 		name= "Falloff",
-		description= "The speed of the transition between occluded and unoccluded areas.",
+		description= "The speed of the transition between occluded and unoccluded areas",
 		min= 0.0,
 		max= 100.0,
 		soft_min= 0.0,
@@ -117,7 +117,7 @@ def add_properties(parent_struct):
 
 	RenderChannelAO.subdivs= IntProperty(
 		name= "Subdivs",
-		description= "TODO.",
+		description= "",
 		min= 1,
 		max= 256,
 		soft_min= 1,

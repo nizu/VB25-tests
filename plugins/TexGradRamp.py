@@ -39,7 +39,7 @@ TYPE= 'TEXTURE'
 ID=   'TexGradRamp'
 NAME= 'Gradient Ramp'
 PLUG= 'TexGradRamp'
-DESC= "TexGradRamp."
+DESC= "TexGradRamp"
 PID=   6
 
 PARAMS= (
@@ -68,27 +68,27 @@ def add_properties(rna_pointer):
 		# texture_map
 		texture_map= StringProperty(
 			name= "Source texture",
-			description= "Texture for \"Mapped\" gradient type.",
+			description= "Texture for \"Mapped\" gradient type",
 			default= ""
 		)
 
 		# gradient_type
 		gradient_type= EnumProperty(
 			name= "Gradient type",
-			description= "Gradient type.",
+			description= "Gradient type",
 			items= (
-				('FOUR_CORNER', "Four corner", "Four corner."), # 0
-				('BOX',         "Box",         "Box."),
-				('DIAGONAL',    "Diagonal",    "Diagonal."),
-				('LIGHTING',    "Lighting",    "Lighting."),
-				('LINEAR',      "Linear",      "Linear."),
-				('MAPPED',      "Mapped",      "Mapped."),
-				('NORMAL',      "Normal",      "normal."),
-				('PONG',        "Pong",        "Pong."),
-				('RADIAL',      "Radial",      "Radial."),
-				('SPIRAL',      "Spiral",      "Spiral."),
-				('SWEEP',       "Sweep",       "Sweep."),
-				('TARTAN',      "Tartan",      "Tartan."),
+				('FOUR_CORNER', "Four corner", "Four corner"), # 0
+				('BOX',         "Box",         "Box"),
+				('DIAGONAL',    "Diagonal",    "Diagonal"),
+				('LIGHTING',    "Lighting",    "Lighting"),
+				('LINEAR',      "Linear",      "Linear"),
+				('MAPPED',      "Mapped",      "Mapped"),
+				('NORMAL',      "Normal",      "normal"),
+				('PONG',        "Pong",        "Pong"),
+				('RADIAL',      "Radial",      "Radial"),
+				('SPIRAL',      "Spiral",      "Spiral"),
+				('SWEEP',       "Sweep",       "Sweep"),
+				('TARTAN',      "Tartan",      "Tartan"),
 			),
 			default= 'FOUR_CORNER'
 		)
@@ -96,15 +96,15 @@ def add_properties(rna_pointer):
 		# interpolation
 		interpolation= EnumProperty(
 			name= "Interpolation",
-			description= "Interpolation.",
+			description= "Interpolation",
 			items= (
-				('NONE',    "None",          "None."), # 0
-				('LINEAR',  "Linear",        "Linear."),
-				('EXPUP',   "Exponent Up",   "Exponent Up."),
-				('EXPDOWN', "Exponent Down", "Exponent Down."),
-				('SMOOTH',  "Smooth",        "Smooth."),
-				('BUMP',    "Bump",          "Bump."),
-				('SPIKE',   "Spike",         "Spike."),
+				('NONE',    "None",          "None"), # 0
+				('LINEAR',  "Linear",        "Linear"),
+				('EXPUP',   "Exponent Up",   "Exponent Up"),
+				('EXPDOWN', "Exponent Down", "Exponent Down"),
+				('SMOOTH',  "Smooth",        "Smooth"),
+				('BUMP',    "Bump",          "Bump"),
+				('SPIKE',   "Spike",         "Spike"),
 			),
 			default= 'LINEAR'
 		)
@@ -112,7 +112,7 @@ def add_properties(rna_pointer):
 		# noise_amount
 		noise_amount= FloatProperty(
 			name= "Amount",
-			description= "Distortion noise amount.",
+			description= "Distortion noise amount",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -124,7 +124,7 @@ def add_properties(rna_pointer):
 		# noise_type
 		noise_type= EnumProperty(
 			name= "Type",
-			description= "Noise type.",
+			description= "Noise type",
 			items= (
 				('REGULAR',    "Regular",    ""), # 0
 				('FRACTAL',    "Fractal",    ""),
@@ -136,7 +136,7 @@ def add_properties(rna_pointer):
 		# noise_size
 		noise_size= FloatProperty(
 			name= "Size",
-			description= "default = 1.0.",
+			description= "default = 1.0",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -148,7 +148,7 @@ def add_properties(rna_pointer):
 		# noise_phase
 		noise_phase= FloatProperty(
 			name= "Phase",
-			description= "default = 0.0.",
+			description= "default = 0.0",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -160,7 +160,7 @@ def add_properties(rna_pointer):
 		# noise_levels
 		noise_levels= FloatProperty(
 			name= "Iterations",
-			description= "default = 4.0.",
+			description= "default = 4.0",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -172,7 +172,7 @@ def add_properties(rna_pointer):
 		# noise_treshold_low
 		noise_treshold_low= FloatProperty(
 			name= "Low",
-			description= "default = 0.0f.",
+			description= "default = 0.0f",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -184,7 +184,7 @@ def add_properties(rna_pointer):
 		# noise_treshold_high
 		noise_treshold_high= FloatProperty(
 			name= "High",
-			description= "default = 1.0f.",
+			description= "default = 1.0f",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,
@@ -196,7 +196,7 @@ def add_properties(rna_pointer):
 		# noise_smooth
 		noise_smooth= FloatProperty(
 			name= "Smooth",
-			description= "default = 0.0f.",
+			description= "default = 0.0f",
 			min= 0.0,
 			max= 100.0,
 			soft_min= 0.0,

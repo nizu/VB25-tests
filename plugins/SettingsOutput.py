@@ -41,7 +41,7 @@ TYPE= 'SETTINGS'
 ID=   'SettingsOutput'
 
 NAME= 'Output'
-DESC= "Output options."
+DESC= "Output options"
 
 PARAMS= (
 )
@@ -51,7 +51,7 @@ def add_properties(rna_pointer):
 	class SettingsOutput(bpy.types.PropertyGroup):
 		img_format= EnumProperty(
 			name= "Type",
-			description= "Output image format.",
+			description= "Output image format",
 			items= (
 				('PNG',   "PNG",     "PNG."),
 				('JPG',   "JPEG",    "Jpeg."),
@@ -63,38 +63,38 @@ def add_properties(rna_pointer):
 
 		img_noAlpha= BoolProperty(
 			name= "No alpha",
-			description= "Don't write the alpha channel to the final image.",
+			description= "Don't write the alpha channel to the final image",
 			default= False
 		)
 
 		img_separateAlpha= BoolProperty(
 			name= "Separate alpha",
-			description= "Write the alpha channel to a separate file.",
+			description= "Write the alpha channel to a separate file",
 			default= False
 		)
 
 		img_file= StringProperty(
 			name= "File name",
-			description= "Render file name (Variables: %C - camera name; %S - scene name).",
+			description= "Render file name (Variables: %C - camera name; %S - scene name)",
 			default= "render_%C"
 		)
 
 		img_dir= StringProperty(
 			name= "Path",
-			description= "Render file directory.",
+			description= "Render file directory",
 			subtype= 'DIR_PATH',
 			default= "//render/"
 		)
 
 		img_file_needFrameNumber= BoolProperty(
 			name= "Add frame number",
-			description= "Add frame number to the image file name.",
+			description= "Add frame number to the image file name",
 			default= True
 		)
 
 		relements_separateFolders= BoolProperty(
 			name= "Separate folders",
-			description= "Save render channels in separate folders.",
+			description= "Save render channels in separate folders",
 			default= False
 		)
 	bpy.utils.register_class(SettingsOutput)
@@ -127,7 +127,7 @@ def write(bus):
 	wx= int(scene.render.resolution_x * scene.render.resolution_percentage / 100)
 	wy= int(scene.render.resolution_y * scene.render.resolution_percentage / 100)
 
-	file_format= get_render_file_format(VRayExporter, scene.render.file_format)
+	file_format= get_render_file_format(VRayExporter, scene.render.image_settings.file_format)
 
 	ofile.write("\nSettingsOutput SettingsOutput {")
 	if VRayExporter.auto_save_render:
@@ -150,19 +150,19 @@ def write(bus):
 	ofile.write("\n}\n")
 
 	ofile.write("\nSettingsEXR SettingsEXR {")
-	ofile.write("\n\tcompression= %i;" % COMPRESSION[scene.render.exr_codec])
-	ofile.write("\n\tbits_per_channel= %d;" % (16 if scene.render.use_exr_half else 32))
+	ofile.write("\n\tcompression= %i;" % COMPRESSION[scene.render.image_settings.exr_codec])
+	ofile.write("\n\tbits_per_channel= %s;" % (scene.render.image_settings.color_depth))
 	ofile.write("\n}\n")
 
 	ofile.write("\nSettingsTIFF SettingsTIFF {")
-	ofile.write("\n\tbits_per_channel= %d;" % (16 if scene.render.use_tiff_16bit else 32))
+	ofile.write("\n\tbits_per_channel= %s;" % (scene.render.image_settings.color_depth))
 	ofile.write("\n}\n")
 
 	ofile.write("\nSettingsJPEG SettingsJPEG {")
-	ofile.write("\n\tquality= %d;" % scene.render.file_quality)
+	ofile.write("\n\tquality= %d;" % scene.render.image_settings.quality)
 	ofile.write("\n}\n")
 
 	ofile.write("\nSettingsPNG SettingsPNG {")
-	ofile.write("\n\tcompression= %d;" % (int(scene.render.file_quality / 10) if scene.render.file_quality < 90 else 9))
+	ofile.write("\n\tcompression= %d;" % (int(scene.render.image_settings.quality / 10) if scene.render.image_settings.quality < 90 else 9))
 	ofile.write("\n\tbits_per_channel= 16;")
 	ofile.write("\n}\n")
