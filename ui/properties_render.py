@@ -1043,7 +1043,7 @@ class VRAY_RP_dr(VRayRenderPanel, bpy.types.Panel):
 		split= layout.split()
 		col= split.column()
 		col.prop(module, 'shared_dir')
-		if module.type == 'WW':
+		if module.type == 'WW' or 'UW':
 			col.prop(module, 'share_name')
 
 		split= layout.split()
