@@ -762,6 +762,7 @@ def	write_material(bus):
 					  VRayMaterial.MtlWrapper.use,
 					  VRayMaterial.MtlOverride.use,
 					  VRayMaterial.MtlRenderStats.use,
+					  VRayMaterial.round_edges,
 					  VRayMaterial.material_id_number):
 		if component:
 			complex_material.append("MC%.2d_%s" % (len(complex_material), ma_name))
@@ -832,9 +833,16 @@ def	write_material(bus):
 			ofile.write("\n\t%s= %s;"%(param, a(scene,getattr(VRayMaterial.MtlRenderStats,param))))
 		ofile.write("\n}\n")
 
+	if VRayMaterial.round_edges:
+		base_mtl= complex_material.pop()
+		ofile.write("\nMtlRoundEdges %s {" % complex_material[-1])
+		ofile.write("\n\tbase_mtl= %s;" % base_mtl)
+		ofile.write("\n\tradius= %.3f;" % VRayMaterial.radius)
+		ofile.write("\n}\n")
+	
 	if VRayMaterial.material_id_number:
 		base_mtl= complex_material.pop()
-		ofile.write("\nMtlMaterialID %s {"%(complex_material[-1]))
+		ofile.write("\nMtlMaterialID %s {" % complex_material[-1])
 		ofile.write("\n\tbase_mtl= %s;" % base_mtl)
 		ofile.write("\n\tmaterial_id_number= %i;" % VRayMaterial.material_id_number)
 		ofile.write("\n\tmaterial_id_color= %s;" % p(VRayMaterial.material_id_color))
@@ -1025,6 +1033,12 @@ def write_lamp(bus):
 			
 		if lamp_type != 'LightIESMax':
 			ofile.write("\n\tunits= %i;"%(UNITS[VRayLamp.units]))
+		else:
+			ofile.write("\n\ties_light_shape= %i;" % (VRayLamp.ies_light_shape if VRayLamp.ies_light_shape else -1))
+			ofile.write("\n\ties_light_width= %.3f;" %    (VRayLamp.ies_light_width))
+			ofile.write("\n\ties_light_length= %.3f;" %   (VRayLamp.ies_light_width if VRayLamp.ies_light_shape_lock else VRayLamp.ies_light_length))
+			ofile.write("\n\ties_light_height= %.3f;" %   (VRayLamp.ies_light_width if VRayLamp.ies_light_shape_lock else VRayLamp.ies_light_height))
+			ofile.write("\n\ties_light_diameter= %.3f;" % (VRayLamp.ies_light_diameter))
 
 	if lamp_type == 'LightSpot':
 		ofile.write("\n\tconeAngle= %s;" % a(scene,lamp.spot_size))
@@ -1042,7 +1056,7 @@ def write_lamp(bus):
 	for param in LIGHT_PARAMS[lamp_type]:
 		if param == 'shadow_subdivs':
 			ofile.write("\n\tshadow_subdivs= %s;"%(a(scene,VRayLamp.subdivs)))
-		elif param == 'shadowSubdivs' and lamp_type == 'LightDirectMax':
+		elif param == 'shadowSubdivs':
 			ofile.write("\n\tshadowSubdivs= %s;"%(a(scene,VRayLamp.subdivs)))
 		elif param == 'shadowRadius' and lamp_type == 'LightDirectMax':
 			ofile.write("\n\t%s= %s;" % (param, a(scene,VRayLamp.shadowRadius)))
@@ -1075,6 +1089,9 @@ def write_node(bus):
 	#   {...}]
 	lights= []
 	for lamp in [o for o in scene.objects if o.type == 'LAMP' or o.vray.LightMesh.use]:
+		if lamp.data is None:
+			continue
+		
 		if lamp.type == 'LAMP':
 			VRayLamp= lamp.data.vray
 		else:
@@ -1275,7 +1292,7 @@ def _write_object_particles(bus):
 					hair_geom_name= clean_string("HAIR%s%s" % (ps.name, ps.settings.name))
 					hair_node_name= get_name(ob, prefix='HAIR')
 
-					if not 'export_meshes' in dir(bpy.ops.vray):
+					if not 'export_meshes' in dir(bpy.ops.vray) or bus['preview']:
 						write_GeomMayaHair(bus, ps, hair_geom_name)
 
 					bus['node']['name']=     hair_node_name
@@ -1876,6 +1893,9 @@ def render(engine, scene, preview= None):
 
 	# Camera loop
 	bus['cameras']= [ob for ob in scene.objects if ob.type == 'CAMERA' and ob.data.vray.use_camera_loop]
+
+	# Render engine
+	bus['engine']= engine.bl_idname if engine is not None else 'VRAY_RENDER_RT'
 
 	if preview:
 		write_geometry_python(bus)

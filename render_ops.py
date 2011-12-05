@@ -34,6 +34,7 @@ import tempfile
 import time
 import zipfile
 import urllib.request
+import sys
 
 ''' Blender modules '''
 import bpy
@@ -55,7 +56,7 @@ VRAYBLENDER_MENU_ITEM= "V-Ray 2.0"
 '''
 class VRAY_OT_update(bpy.types.Operator):
 	bl_idname      = "vray.update"
-	bl_label       = "Update exporter"
+	bl_label       = "Update Exporter"
 	bl_description = "Update exporter from github"
 
 	def execute(self, context):
@@ -64,18 +65,19 @@ class VRAY_OT_update(bpy.types.Operator):
 		update_dir= create_dir(os.path.join(tempfile.gettempdir(), "vb25_update"))
 
 		# Downloading file
-		debug(context.scene, "Downloading \'master\' branch archive...")
+		debug(context.scene, "Downloading 'master' branch archive...")
 		(filename, headers)= urllib.request.urlretrieve(GIT_URL)
 
 		# Extracting archive
-		ziparchive= zipfile.ZipFile(filename)
+		ziparchive = zipfile.ZipFile(filename)
 		ziparchive.extractall(update_dir)
+		ziparchive.close()
 
 		# Check update dir
-		dirnames= os.listdir(update_dir)
-
 		cur_vb25_dirpath= get_vray_exporter_path()
 		new_vb25_dirpath= ""
+
+		dirnames= os.listdir(update_dir)
 		for dirname in dirnames:
 			if dirname.startswith("bdancer-vb25-"):
 				new_vb25_dirpath= os.path.join(update_dir, dirname)
@@ -87,14 +89,20 @@ class VRAY_OT_update(bpy.types.Operator):
 
 		# Copying new files
 		debug(context.scene, "Copying new files...")
-		shutil.rmtree(cur_vb25_dirpath)
+		if sys.platform == "win32":
+			os.system("rmdir /Q /S %s" % cur_vb25_dirpath)
+		else:
+			shutil.rmtree(cur_vb25_dirpath)
 		shutil.copytree(new_vb25_dirpath, cur_vb25_dirpath)
 
 		debug(context.scene, "Removing temp file: %s"%(filename))
 		os.remove(filename)
 
 		debug(context.scene, "Removing temp dir: %s"%(update_dir))
-		shutil.rmtree(update_dir)
+		if sys.platform == "win32":
+			os.system("rmdir /Q /S %s" % update_dir)
+		else:
+			shutil.rmtree(update_dir)
 
 		return {'FINISHED'}
 
@@ -213,13 +221,13 @@ bpy.utils.register_class(VRAY_OT_effect_down)
   Material operators
 '''
 def active_node_mat(mat):
-    if mat:
-        mat_node= mat.active_node_material
-        if mat_node:
-            return mat_node
-        else:
-            return mat
-    return None
+	if mat:
+		mat_node= mat.active_node_material
+		if mat_node:
+			return mat_node
+		else:
+			return mat
+	return None
 
 
 def find_brdf_pointer(rna_pointer):

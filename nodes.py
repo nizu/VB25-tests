@@ -76,6 +76,9 @@ def write_BRDFDiffuse(bus, name, node, color):
 def write_ShaderNodeTexture(bus, node, input_params):
 	node_tree= bus['ma_nodes']['node_tree']
 
+	if not node.texture:
+		return None
+
 	bus['mtex']= {}
 	bus['mtex']['mapto']=   'node'
 	bus['mtex']['slot']=     None
@@ -93,6 +96,9 @@ def write_ShaderNodeMaterial(bus, node, input_params):
 
 	bus['textures']= {}
 	bus['material']['material']= node.material
+
+	if not node.material:
+		return None
 
 	# Check Toon
 	VRayMaterial= node.material.vray
@@ -141,7 +147,7 @@ def write_ShaderNodeOutput(bus, node, input_params):
 
 	brdf= params['Color']
 
-	if 'Alpha' in input_params or node.inputs['Alpha'].default_value[0] < 1.0:
+	if 'Alpha' in input_params or node.inputs['Alpha'].default_value < 1.0:
 		brdfs= brdf
 		brdf= "%sWithAlpha" % brdfs
 		ofile.write("\nBRDFLayered %s {" % brdf)
@@ -149,7 +155,7 @@ def write_ShaderNodeOutput(bus, node, input_params):
 		if 'Alpha' in input_params:
 			ofile.write("\n\ttransparency_tex= %s;" % params['Alpha'])
 		else:
-			ofile.write("\n\ttransparency= %s;" % a(scene, mathutils.Color([node.inputs[key].default_value[0]]*3)))
+			ofile.write("\n\ttransparency= %s;" % a(scene, mathutils.Color([node.inputs[key].default_value]*3)))
 		ofile.write("\n\tweights= List(TEDefaultBlend);")
 		ofile.write("\n}\n")
 
@@ -188,9 +194,9 @@ def write_ShaderNodeMixRGB(bus, node, input_params):
 											   mathutils.Color((c[0],c[1],c[2])))
 			elif key == 'Fac':
 				params[key]= write_TexAColor(bus, key, node,
-											 mathutils.Color([node.inputs[key].default_value[0]]*3))
+											 mathutils.Color([node.inputs[key].default_value]*3))
 
-	node_name= get_node_name(node_tree, node)
+	node_name = "%s%s" % (get_name(bus['material']['material'], prefix='MA'), get_node_name(node_tree, node))
 
 	ofile.write("\nBRDFLayered %s {" % node_name)
 	ofile.write("\n\tbrdfs= List(%s, %s);" % (params['Color2'], params['Color1']))
@@ -272,4 +278,3 @@ def write_node_material(bus):
 		return write_shader_node(bus, node_tree, output_node)
 
 	return bus['defaults']['material']
-
