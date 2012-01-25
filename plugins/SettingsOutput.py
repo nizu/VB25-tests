@@ -53,15 +53,6 @@ def add_properties(rna_pointer):
 			name= "Type",
 			description= "Output image format",
 			items= (
->>>>>>>>>>>>>>>>>>>> File 1
-				('PNG',     "PNG",       "PNG"),
-				('JPG',     "JPEG",      "Jpeg"),
-				('TIFF',    "Tiff",      "Tiff"),
-				('TGA',     "TGA",       "Targa"),
-				('SGI',     "SGI",       "SGI"),
-				('EXR', "OpenEXR",   "OpenEXR"),
-				('VRIMG',   "VRayImage", "V-Ray Image format"),
->>>>>>>>>>>>>>>>>>>> File 2
 				('PNG',   "PNG",       "PNG"),
 				('JPG',   "JPEG",      "Jpeg"),
 				('TIFF',  "Tiff",      "Tiff"),
@@ -69,15 +60,6 @@ def add_properties(rna_pointer):
 				('SGI',   "SGI",       "SGI"),
 				('EXR',   "OpenEXR",   "OpenEXR"),
 				('VRIMG', "VRayImage", "V-Ray Image format"),
->>>>>>>>>>>>>>>>>>>> File 3
-				('PNG',   "PNG",       "PNG"),
-				('JPG',   "JPEG",      "Jpeg"),
-				('TIFF',  "Tiff",      "Tiff"),
-				('TGA',   "TGA",       "Targa"),
-				('SGI',   "SGI",       "SGI"),
-				('EXR',   "OpenEXR",   "OpenEXR"),
-				('VRIMG', "VRayImage", "V-Ray Image format"),
-<<<<<<<<<<<<<<<<<<<<
 			),
 			default= 'PNG'
 		)
