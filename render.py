@@ -72,7 +72,7 @@ LIGHT_PARAMS= { # TEMP! REMOVE!
 		#'units',
 		'intensity',
 		#'intensity_tex',
-		#'shadowRadius',
+		'shadowRadius',
 		'areaSpeculars',
 		'shadowSubdivs',
 		'decay'
@@ -226,7 +226,7 @@ LIGHT_PARAMS= { # TEMP! REMOVE!
 		'cutoffThreshold',
 		'affectDiffuse',
 		'affectSpecular',
-		#'bumped_below_surface_check',
+		'bumped_below_surface_check',
 		'nsamples',
 		'diffuse_contribution',
 		'specular_contribution',
@@ -244,12 +244,12 @@ LIGHT_PARAMS= { # TEMP! REMOVE!
 		#'dome_tex',
 		#'use_dome_tex',
 		#'tex_resolution',
-		#'dome_targetRadius',
-		#'dome_emitRadius',
-		#'dome_spherical',
 		#'tex_adaptive',
-		#'dome_rayDistance',
-		#'dome_rayDistanceMode',
+		'dome_targetRadius',
+		'dome_emitRadius',
+		'dome_spherical',
+		'dome_rayDistance',
+		'dome_rayDistanceMode',
 	),
 
 	'LightSpot': (
@@ -626,13 +626,6 @@ def write_settings(bus):
 		bus['files']['scene'].write("\n\tadaptive_threshold= 0.1;")
 		bus['files']['scene'].write("\n\tsubdivs_mult= 0.1;")
 		bus['files']['scene'].write("\n}\n")
-		bus['files']['scene'].write("\nSettingsOptions {")
-		bus['files']['scene'].write("\n\tmtl_limitDepth= 1;")
-		bus['files']['scene'].write("\n\tmtl_maxDepth= 5;")
-		bus['files']['scene'].write("\n\tmtl_transpMaxLevels= 10;")
-		bus['files']['scene'].write("\n\tmtl_transpCutoff= 0.1;")
-		bus['files']['scene'].write("\n\tmtl_glossy= 1;")
-		bus['files']['scene'].write("\n}\n")
 		bus['files']['scene'].write("\nSettingsImageSampler {")
 		bus['files']['scene'].write("\n\ttype= 1;")
 		bus['files']['scene'].write("\n}\n")
@@ -681,6 +674,7 @@ def write_lamp_textures(bus):
 							bus['lamp_textures'][key].append(defaults[key])
 
 					bus['mtex']= {}
+					bus['mtex']['dome'] = True if la.type == 'HEMI' else False
 					bus['mtex']['mapto']=   key
 					bus['mtex']['slot']=    slot
 					bus['mtex']['texture']= slot.texture
@@ -1838,7 +1832,7 @@ def run(engine, bus):
 	if VRayExporter.autorun:
 		process= subprocess.Popen(params)
 
-		if (bus['preview'] or VRayExporter.image_to_blender) and not scene.render.use_crop_to_border:
+		if (bus['preview'] or VRayExporter.image_to_blender) and not scene.render.use_border:
 			load_file= preview_loadfile if bus['preview'] else os.path.join(bus['filenames']['output'], bus['filenames']['output_loadfile'])
 			while True:
 				if engine.test_break():

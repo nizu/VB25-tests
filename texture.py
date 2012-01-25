@@ -115,8 +115,9 @@ def write_texture(bus):
 	texture= bus['mtex']['texture']
 
 	if not append_unique(bus['cache']['textures'], bus['mtex']['name']):
-		if not bus['mtex'].get('env'):
-			bus['material']['normal_uvwgen']= bus['cache']['uvwgen'].get(bus['mtex']['name'], bus['defaults']['uvwgen'])
+		if not 'env' in bus['mtex']:
+			if 'material' in bus:
+				bus['material']['normal_uvwgen']= bus['cache']['uvwgen'].get(bus['mtex']['name'], bus['defaults']['uvwgen'])
 		return bus['mtex']['name']
 
 	if texture.use_nodes:
@@ -578,8 +579,8 @@ def write_material_textures(bus):
 
 						bus['mtex']['name']+= bus['material']['orco_suffix']
 
-					# if VRayExporter.debug:
-					# 	print_dict(scene, "bus['mtex']", bus['mtex'])
+					if VRayExporter.debug:
+						print_dict(scene, "bus['mtex']", bus['mtex'])
 
 					# Write texture
 					if write_texture(bus):
