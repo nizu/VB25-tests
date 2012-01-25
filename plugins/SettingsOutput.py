@@ -58,7 +58,7 @@ def add_properties(rna_pointer):
 				('TIFF',    "Tiff",      "Tiff"),
 				('TGA',     "TGA",       "Targa"),
 				('SGI',     "SGI",       "SGI"),
-				('OPENEXR', "OpenEXR",   "OpenEXR"),
+				('EXR', "OpenEXR",   "OpenEXR"),
 				('VRIMG',   "VRayImage", "V-Ray Image format"),
 			),
 			default= 'PNG'
